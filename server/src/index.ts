@@ -619,6 +619,31 @@ app.put('/api/v1/user-settings', (req, res) => {
   res.json({ success: true, data: dataStore.userSettings });
 });
 
+// Push token registration
+const pushTokens: Map<string, { token: string; platform: string; deviceName: string; createdAt: string }> = new Map();
+
+app.post('/api/v1/push-tokens', (req, res) => {
+  const { token, platform, deviceName } = req.body;
+  if (!token) {
+    return res.status(400).json({ success: false, error: 'Token is required' });
+  }
+
+  pushTokens.set(token, {
+    token,
+    platform: platform || 'unknown',
+    deviceName: deviceName || 'unknown',
+    createdAt: new Date().toISOString(),
+  });
+
+  res.json({ success: true, data: { registered: true } });
+});
+
+app.delete('/api/v1/push-tokens/:token', (req, res) => {
+  const { token } = req.params;
+  pushTokens.delete(token);
+  res.json({ success: true, data: { removed: true } });
+});
+
 app.listen(port, () => {
   console.log(`Sleep app server listening at http://localhost:${port}/`);
 });
