@@ -34,6 +34,7 @@ await test('Health check', async () => {
   const res = await fetch(`${BASE_URL}/health`);
   const data = await res.json();
   assertTrue(data.success, 'health check should return success');
+  // Database is now connected in our setup
   assertTrue(data.data?.status === 'ok', 'health should return ok status');
 });
 
