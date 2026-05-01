@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 9091;
+const port = process.env.PORT || 9092;
 
 // Middleware
 app.use(cors());
